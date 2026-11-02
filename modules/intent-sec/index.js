@@ -122,9 +122,39 @@ export const DEFAULT_POLICY = {
     { id: 'S-14', name: '（条文原文未提供）', value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
   ],
   capability_catalog: {
-    host_mirror: { prefixes: ['log', 'bridge:read'], kvNs: ['cache', 'skills'], checked_at_host_version: '0.1.12' },
+    /**
+     * 母体镜像（Phase 1.2-R 同步）。
+     *
+     * 口径：known = 母体 Loader 当前真正能兑现的能力闭包。镜像一旦落后于母体，
+     * 安全门会以 REJECT_FORMAT 拒绝**合法**能力（"SCF 放行、安全门拒绝"是最难查的故障），
+     * 所以这里不是"多写几条更宽容"，而是必须与 `web/src/loader/contract.ts` 的
+     * CAPABILITY_CATALOG 逐项对齐；对齐由 `scripts/check-sec-catalog-parity.py` 强制。
+     *
+     * Phase 1.2-R 收窄：
+     *  - 删除 `bridge:read`：母体已删除 bridge 能力（无跨端口读通道），镜像里的残留会让门
+     *    继续接受一个母体兑现不了的能力——放行即造成"批准了做不到的事"。
+     *  - 删除 `kv:skills`：skills 命名空间已从母体目录移除（AI 业务数据迁往独立工程）。
+     *  - 新增 `kv:config`：母体保留的三个非业务 ns 之一（cache / sec / config）。
+     *  - 新增 `http:dynamic`：母体保留的唯一出网口径（origin 白名单 + 用户授权由 Loader 执行；
+     *    凭证归业务，母体不代发）。缺它则任何需要出网的驱动都无法装载。
+     */
+    host_mirror: {
+      prefixes: ['log'],
+      kvNs: ['cache', 'sec', 'config'],
+      dynamicOrigin: true,
+      /**
+       * 槽位能力：母体 Loader 授予的挂载点，属"母体兑现得了"的一部分。
+       * 漏收录会让镜像恒为 `open`，每次判定都挂 `capability_catalog_drift` 未验证项，
+       * 真正的一致反而被噪声淹没。`plugin.slot.*` 是唯一带通配的一条，镜像按原样保留。
+       */
+      slotCapabilities: ['ui:slot:app.main', 'ui:slot:app.sidebar', 'ui:slot:plugin.slot.*', 'ui:slot:shell.root'],
+      checked_at_host_version: '0.11.21',
+    },
     declared_by_module: ['log', 'kv:sec'],
-    known: ['log', 'bridge:read', 'kv:cache', 'kv:skills', 'kv:sec'],
+    known: [
+      'log', 'kv:cache', 'kv:sec', 'kv:config', 'http:dynamic',
+      'ui:slot:app.main', 'ui:slot:app.sidebar', 'ui:slot:plugin.slot.*', 'ui:slot:shell.root',
+    ],
     kv_fallback: { when: 'kv:sec 未授权', use: 'kv:cache', key_prefix: 'sec:', two_state_tested: true },
   },
   operation_catalog: [
@@ -857,16 +887,54 @@ export function judgeSync(request, opts = {}) {
 
     /* 步骤 4：能力白名单（Capability Guard：六要素 + 撤销 + 期限，S-01 默认拒绝） */
     const caps = request.requested_capabilities || []
-    const declared = policy.capability_catalog?.declared_by_module || []
+    /**
+     * 白名单来源（Phase 1.2-R 修正）。
+     *
+     * 原实现用 `capability_catalog.declared_by_module` 当"允许清单"——那是**本模块
+     * 自己用了哪些能力**的事实声明（S-09 的审计口径），不是"谁能用什么"的政策。
+     * 拿它当白名单，等于要求每个被裁决方只能使用安全门自己用到的能力：门声明了
+     * log/kv:sec，别的驱动只要申请 http:dynamic 就被"最小权限"拒绝，判词还指向被裁决方，
+     * 极难定位。
+     *
+     * 正确口径：白名单 = 母体当前**能兑现**的能力闭包（`known`），且必须与母体目录一致；
+     * 母体兑现不了的能力 → 拒绝（否则是"批准了做不到的事"）。
+     * `declared_by_module` 继续保留其原义，只在审计里体现。
+     */
+    const declared = policy.capability_catalog?.known || []
+    const closure4 = computeCatalogClosure(opts.hostCatalog, policy)
     for (const cap of caps) {
       if (!declared.includes(cap)) {
         d.status = 'DENIED'
         d.denied_operations.push(cap)
-        d.reason = `能力 ${cap} 不在模块声明范围内（最小权限）`
-        applicable('S-09')
+        d.reason = `能力 ${cap} 不在母体能力目录内（母体无法兑现，默认拒绝）`
+        applicable('S-01')
+        return die()
+      }
+      if (closure4.state === 'open' && closure4.extra_in_host.includes(cap)) {
+        // 母体能兑现但本门镜像没收录：镜像落后。拒绝而不是放行——
+        // 门对"自己没见过的能力"没有判断依据，放行等于跳过审查。
+        d.status = 'DENIED'
+        d.denied_operations.push(cap)
+        d.reason = `安全门策略镜像落后于母体：${cap} 未被收录（需同步 capability_catalog）`
+        d.missing_evidence.push('sec_policy_catalog_sync')
+        applicable('S-01')
         return die()
       }
     }
+    /**
+     * 步骤 4b：门侧能力闭包复核（Phase 1.2-R 新增，fail-closed）。
+     *
+     * 为什么需要：本模块若不在被裁决模块的依赖链上，Loader 不会把它当门（见
+     * `loader.findGate()` 的 "装配计划 §2.1" 语义），装载请求就**不经过这里**。
+     * 因此本模块必须在自己的装配期把这件事显式记进诊断，不能让"门在场但因装配关系
+     * 未被咨询"退化成"看起来审查过了"。
+     *
+     * 判定口径：ok / closed（静态白名单能力）/ open（与母体镜像不一致）。
+     * 不一致只记诊断、不改结论——本模块的职责是审查，不是替母体决定放行什么。
+     */
+    const closure = computeCatalogClosure(opts.hostCatalog, policy)
+    d.authorization_refs.push(`catalog:${closure.state}:${closure.digest}`)
+    if (closure.state === 'open') d.unverified_items = [...(d.unverified_items || []), 'capability_catalog_drift']
     const validity = resolveValidity(request, opts.now, policy.defaults?.ttl_ms)
     const capResult = checkCapability({
       subject: request.subject_ref,
@@ -974,6 +1042,40 @@ export function judgeSync(request, opts = {}) {
 }
 
 /**
+ * 门侧能力闭包复核（Phase 1.2-R）。
+ *
+ * 输入 `hostCatalog` 是母体在 mount 时通过 ctx 传入的**真实能力目录镜像**
+ * （见 `web/src/scf/index.ts` 的 `hostCatalog()` 与 intent-sec 的 mount）；
+ * 未传入时退回本地 DEFAULT_POLICY 镜像，并把结论标成 `unverified`，
+ * 不伪装成"已核对"。
+ *
+ * 返回：
+ *  - state: 'ok'      策略镜像与母体目录一致
+ *  - state: 'closed'  本模块只声明静态能力，不需要动态目录（无出网 / 无动态 origin）
+ *  - state: 'open'    不一致：母体目录有镜像未收录的能力（镜像落后），或反之（镜像超前）
+ *  - state: 'unverified' 母体未提供目录，只能按本地镜像自证
+ */
+export function computeCatalogClosure(hostCatalog, policyState = DEFAULT_POLICY) {
+  const local = policyState.capability_catalog || {}
+  const localList = Array.isArray(local.known) ? [...local.known].sort() : []
+  const digest = fnv1a64hex(canonicalJSON(localList))
+  if (!hostCatalog || !Array.isArray(hostCatalog.known)) {
+    return { state: 'unverified', digest, extra_in_host: [], missing_in_host: [] }
+  }
+  const hostList = [...hostCatalog.known].sort()
+  const extra_in_host = hostList.filter((c) => !localList.includes(c))
+  const missing_in_host = localList.filter((c) => !hostList.includes(c))
+  const same = extra_in_host.length === 0 && missing_in_host.length === 0
+  return {
+    state: same ? 'ok' : 'open',
+    digest,
+    extra_in_host,
+    missing_in_host,
+    host_version: hostCatalog.host_version || null,
+  }
+}
+
+/**
  * 母体钩子接口：loader 在 authorize 之后、实例化前调用（§10.2-4）。
  * 只消费到 AUTHORIZED_FOR_EXECUTION；执行是母体 loader 的事。
  * 异步：需要算规范化请求摘要并落存证（IO 层）。
@@ -987,6 +1089,7 @@ export async function judge(request, opts = {}) {
     now: opts.now !== undefined ? opts.now : (st?.clock ? st.clock() : Date.now()),
     usage: st?.usage || {},
     hostVersion: st?.hostVersion,
+    hostCatalog: st?.hostCatalog || null,
     limits: st?.limits,
     credential: opts.credential,
     delegated_from: opts.delegated_from,
@@ -1220,6 +1323,30 @@ const mod = {
       nodes: [],
       lastStatus: null,
       clock: () => Date.now(),
+      /* 母体能力目录镜像（ctx.hostCatalog）：只用于自证"我的白名单与母体一致"，不改结论。 */
+      hostCatalog: (ctx && ctx.hostCatalog) || null,
+    }
+
+    /**
+     * 装配期闭包自检（Phase 1.2-R）。
+     *
+     * 装载请求是否经过本门由 Loader 的依赖链决定（只有位于被裁决模块 deps 里才会被咨询）。
+     * 因此本模块不能只在自己被调用时才检查一致性——必须在装配期就把结论写进诊断，
+     * 让"门在场但未被咨询"这件事可见，而不是静默呈现为"已审查"。
+     */
+    try {
+      const closure = computeCatalogClosure(st.hostCatalog, policy)
+      appendEvent(st, {
+        kind: 'policy',
+        code: `CATALOG_${closure.state.toUpperCase()}`,
+        reason: closure.state === 'ok'
+          ? `能力目录镜像与母体一致（${closure.digest}）`
+          : closure.state === 'unverified'
+            ? '母体未提供能力目录，仅按本地镜像自证（不得视为已核对）'
+            : `能力目录镜像与母体不一致：母体多出 [${closure.extra_in_host.join(', ')}]，镜像多出 [${closure.missing_in_host.join(', ')}]`,
+      })
+    } catch (e) {
+      appendEvent(st, { kind: 'error', code: 'CATALOG_CHECK_FAILED', reason: String(e && e.message ? e.message : e) })
     }
 
     // 播种/读取策略

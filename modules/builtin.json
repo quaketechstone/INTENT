@@ -2,10 +2,15 @@
   "_source": "docs/ASSEMBLY-intent-sec-v0.2.0.md §2.2（信任分级）",
   "_note": "母体内置信任清单（数据驱动，内核零模块专用代码）：modules 全部登记为内置信任 URL——门在场时咨询式过 judge（判定留痕不阻断），门缺失时允许并记录；autoload=true 的条目在清单就绪时装载。未列出的 URL 来源 = 远程级：必须过门，门缺失拒（fail-closed）。",
   "modules": [
-    { "url": "modules/intent-sec/manifest.json", "autoload": true },
-    { "url": "modules/hello/manifest.json" },
-    { "url": "modules/probe-kv/manifest.json" },
-    { "url": "modules/probe-nocap/manifest.json" },
-    { "url": "modules/webrtc-p2p/manifest.json" }
+    {
+      "url": "modules/intent-sec/manifest.json",
+      "autoload": true
+    },
+    {
+      "url": "modules/hello/manifest.json"
+    },
+    {
+      "url": "modules/webrtc-p2p/manifest.json"
+    }
   ]
 }
