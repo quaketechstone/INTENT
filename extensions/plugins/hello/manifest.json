@@ -1,0 +1,13 @@
+{
+  "id": "ext.example.hello",
+  "version": "1.0.0",
+  "name": "示例 UI 插件",
+  "kind": "ui-plugin",
+  "entry": "index.js",
+  "sha256": "744d2a2e0896277566140e03fa9260ebbbf1532dafa32b6b424bc62b29afad33",
+  "capabilities": ["log", "kv:cache"],
+  "deps": {},
+  "slots": ["plugin.slot.hello"],
+  "min_host": "0.11.0",
+  "data": { "on_unload": "purge" }
+}

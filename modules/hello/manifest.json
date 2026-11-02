@@ -1,0 +1,15 @@
+{
+  "id": "site.example.hello",
+  "version": "1.0.0",
+  "name": "示范模块",
+  "entry": "index.js",
+  "sha256": "c8341bb431108f97d14c4a36beb797b3689f5ecd0012a710360080838a1161d4",
+  "capabilities": [
+    "log"
+  ],
+  "deps": {},
+  "slots": [
+    "settings.section"
+  ],
+  "min_host": "0.1.0"
+}

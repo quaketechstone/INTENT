@@ -1,0 +1,18 @@
+{
+  "id": "site.example.probe.overreach",
+  "version": "0.0.1",
+  "name": "合成越权探针（C1/C3 测试主体）",
+  "entry": "index.js",
+  "sha256": "1be07a7a176677ade581aa3e2caded9f631e73609e4cfacd739fe784d7e6af22",
+  "capabilities": [
+    "log",
+    "kv:cache"
+  ],
+  "deps": {},
+  "slots": [
+    "settings.section"
+  ],
+  "min_host": "0.2.0",
+  "_source": "docs/ASSEMBLY-intent-sec-v0.2.0.md §2.4",
+  "_note": "母体授权目录内能力（kv:cache）但安全策略 declared_by_module 外：过 authorize、被 judge 拒（C3）。不进 builtin.json——按远程级装载。"
+}

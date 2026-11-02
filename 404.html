@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#4b61d1" />
+  <meta name="description" content="INTENT-OS Mother：本地优先的驱动宿主与系统控制桌面" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="INTENT-OS" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <title>INTENT-OS Mother</title>
+  <script type="module" crossorigin src="/INTENT/assets/index-DOYsgaLi.js"></script>
+  <link rel="stylesheet" crossorigin href="/INTENT/assets/index-Dr-UlcWh.css">
+<link rel="manifest" href="/INTENT/manifest.webmanifest"></head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.2c-.5.4-1.3 0-1.3-.7V6.5Z"/></symbol>
+    <symbol id="i-skill" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5Z"/></symbol>
+    <symbol id="i-model" viewBox="0 0 24 24"><path d="M12 3.2 20 7.6v8.8L12 20.8 4 16.4V7.6l8-4.4Z"/><path d="M4 7.6 12 12l8-4.4"/><path d="M12 12v8.8"/></symbol>
+    <symbol id="i-adapt" viewBox="0 0 24 24"><path d="M4 7h9"/><path d="M17 7h3"/><circle cx="15" cy="7" r="2"/><path d="M4 17h3"/><path d="M11 17h9"/><circle cx="9" cy="17" r="2"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M4.5 16.5 9 12l3.5 3 2.5-2 4.5 4"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="12.5" height="12" rx="2.5"/><path d="M15.5 10.5 21 8v8l-5.5-2.5"/></symbol>
+    <symbol id="i-audio" viewBox="0 0 24 24"><path d="M9 17.5V6.8l8-1.8v10.4"/><circle cx="6.8" cy="17.5" r="2.3"/><circle cx="14.8" cy="15.4" r="2.3"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z"/><path d="M13 3.5v5h5"/></symbol>
+    <symbol id="i-flow" viewBox="0 0 24 24"><rect x="3" y="4" width="6" height="5" rx="1.5"/><rect x="15" y="15" width="6" height="5" rx="1.5"/><path d="M9 6.5h4.5a2 2 0 0 1 2 2V15"/><path d="M9 9.5v5a2 2 0 0 0 2 2h4"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5v15"/><path d="M12 4.5a7.5 7.5 0 0 0 0 15Z" fill="currentColor" stroke="none" opacity=".55"/></symbol>
+    <symbol id="i-install" viewBox="0 0 24 24"><path d="M12 4v10"/><path d="M8.5 10.5 12 14l3.5-3.5"/><path d="M5 17v1.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V17"/></symbol>
+    <symbol id="i-p2p" viewBox="0 0 24 24"><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/><path d="M8.4 8.4l7.2 7.2"/><path d="M12 3.5v3"/><path d="M12 17.5v3"/></symbol>
+    <!-- Phase 1.2 新增：控制桌面导航 -->
+    <symbol id="i-desktop" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M9 20.5h6"/><path d="M12 16.5v4"/></symbol>
+    <symbol id="i-driver" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><path d="M9.5 3.5v3M14.5 3.5v3M9.5 17.5v3M14.5 17.5v3M3.5 9.5h3M3.5 14.5h3M17.5 9.5h3M17.5 14.5h3"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><circle cx="8.5" cy="12" r="3.5"/><path d="M12 12h8"/><path d="M17 12v3M20 12v2"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="M17 13.5v7M13.5 17h7"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 5 6.5v5c0 4.2 3 7.2 7 9 4-1.8 7-4.8 7-9v-5l-7-3Z"/><path d="M9 11.8l2.2 2.2 4-4"/></symbol>
+    <symbol id="i-recovery" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 1 2.2 5.3"/><path d="M4 8v4.5h4.5"/></symbol>
+  </svg>
+
+  <!-- ============================================================
+       内置 Shell（.app-shell）
+       可被 Shell Provider 替换：body[data-shell="external"] 时整块隐藏，
+       #shellHost 接管。安全界面不在这个子树里（见 #secLayer）。
+       ============================================================ -->
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar" aria-label="主导航">
+      <div class="brand-row">
+        <div class="brand-mark">Q</div>
+        <span class="brand-name">intent<span class="brand-dot">.</span>os</span>
+        <button class="icon-btn mobile-only" id="closeSidebar" aria-label="关闭导航">×</button>
+      </div>
+      <button class="primary-btn new-chat" id="newChat"><span>＋</span> 新建对话</button>
+      <label class="search-box"><span>⌕</span><input id="searchChats" type="search" placeholder="搜索对话" /></label>
+      <!-- 导航由视图注册表渲染（views/index.ts）：加页面只改注册表，不改这里。
+           硬编码 <button data-view> 的时代结束了——那种写法要求「加页面时记得改 HTML」。 -->
+      <nav class="nav-section" id="navList" aria-label="功能导航"></nav>
+      <div class="history-head"><span class="section-label">最近对话</span><button class="tiny-icon" id="clearSearch" title="清除搜索">···</button></div>
+      <div class="conversation-list" id="conversationList"></div>
+      <div class="sidebar-bottom">
+        <button class="nav-item" id="themeToggle"><svg class="nav-icon" aria-hidden="true"><use href="#i-theme"/></svg> 切换外观</button>
+        <button class="nav-item" id="installApp" hidden><svg class="nav-icon" aria-hidden="true"><use href="#i-install"/></svg> 安装到桌面</button>
+        <div class="nav-version" id="installAppVersion"></div>
+        <div class="user-mini">
+          <div class="avatar" id="statusAvatar">Q</div>
+          <div class="user-meta"><strong>本地工作区</strong><span id="statusLine">正在启动内核…</span></div>
+          <span class="status-dot" id="statusDot"></span>
+        </div>
+      </div>
+    </aside>
+    <div class="sidebar-scrim" id="sidebarScrim"></div>
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-only" id="openSidebar" aria-label="打开导航">☰</button>
+          <span class="breadcrumb" id="breadcrumb">控制桌面</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="pill" id="offlinePill" hidden>离线</span>
+          <!-- 驱动 UI 槽位（chat.sidebar）：顶栏右侧第三槽位，持久宿主。
+               形态：chip 是母体外壳（只显示 loader 记录的状态，不代驱动渲染）；
+               #driverUiSlot 是注册给驱动的真槽位；#driverUiFallback 仅承接母体兜底内容。 -->
+          <div class="driver-ui-host" id="driverUiHost" hidden>
+            <button class="driver-ui-chip" id="driverUiChip" type="button" aria-expanded="false" aria-controls="driverUiSlot" title="驱动 UI（点击展开）">
+              <span class="driver-ui-dot" aria-hidden="true"></span>
+              <span class="driver-ui-chip-text" id="driverUiChipText">P2P</span>
+            </button>
+            <div class="driver-ui-slot" id="driverUiSlot" data-slot="chat.sidebar"></div>
+            <div class="driver-ui-fallback" id="driverUiFallback" hidden></div>
+          </div>
+          <span class="pill soft" id="modelPill" title="当前模型">未配置</span>
+          <button class="icon-btn" id="quickSettings" title="系统设置" aria-label="设置"><svg class="nav-icon" aria-hidden="true"><use href="#i-settings"/></svg></button>
+        </div>
+      </header>
+      <!-- 驱动 UI 主区槽位（chat.main）：AI 对话驱动在这里渲染完整聊天界面。
+           与 #view 并列而不是嵌套：视图切换会清空 #view，槽位被清掉就得重新装载驱动。 -->
+      <div class="driver-main-slot" id="driverMainSlot" data-slot="chat.main" hidden></div>
+      <div class="view-host" id="view" aria-live="polite"></div>
+      <!-- 插件渲染区：位于 #view 之外，视图切换不清空。
+           只在扩展管理页的「UI 插件」tab 显示（body[data-ext-tab="plugin"]）。 -->
+      <div id="pluginArea"></div>
+    </main>
+  </div>
+
+  <!-- 第三方 Shell 宿主：与 .app-shell 兄弟。外壳接管时这里显示，内置隐藏。 -->
+  <div id="shellHost" data-slot="shell.root"></div>
+
+  <!-- 移动端底部导航（< 900px 显示）。由视图注册表的 tab 项渲染。 -->
+  <nav class="tabbar" id="tabbar" aria-label="主导航">
+    <div class="tabbar-inner" id="tabbarInner"></div>
+  </nav>
+
+  <!-- 安全层：body 直接子节点，与 .app-shell / #shellHost 平级。
+       安全横幅、紧急恢复面板渲染在这里——外壳的 CSS 作用不到（不在同一棵子树）。 -->
+  <div class="sec-layer" id="secLayer" aria-live="polite"></div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+  <div id="dialogRoot"></div>
+</body>
+</html>

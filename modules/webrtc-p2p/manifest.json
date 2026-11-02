@@ -1,0 +1,19 @@
+{
+  "id": "net.webrtc.p2p",
+  "version": "0.1.0",
+  "name": "WebRTC P2P 数据通道驱动",
+  "entry": "driver.js",
+  "sha256": "942cba18b06b6b429ca92268131b7774e917682f69ceb0df130a9c0b52226824",
+  "capabilities": [
+    "log",
+    "kv:cache"
+  ],
+  "deps": {},
+  "slots": [
+    "chat.sidebar",
+    "settings.section"
+  ],
+  "min_host": "0.2.0",
+  "_note": "capabilities 只申请 log 与 kv:cache。信令 WebSocket 与 RTCPeerConnection 是浏览器全局构造器，母体能力代理无法约束——如实声明为驱动自持，详见 docs/SECURITY.md。slots 声明两个：chat.sidebar 母体尚未注册（未来标准位），settings.section 为当前唯一可命中的兼容位；两者都缺失时按 headless 运行。driverConfig 会被 scripts/build.mjs 在构建期**内联**进产物（src/index.js 的 MANIFEST_DEFAULTS），是配置来源的第三档（injected > kv > manifest > default）；键必须在 CONFIG_FIELDS 内，且不得含 credentialRef（只允许 injected）。当前为空：不把任何环境地址写死在产物里。",
+  "driverConfig": {}
+}

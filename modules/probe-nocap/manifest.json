@@ -1,0 +1,13 @@
+{
+  "id": "site.example.probe.nocap",
+  "version": "1.0.0",
+  "name": "能力探针·零声明",
+  "entry": "index.js",
+  "sha256": "ffb99133702084a64f35b57b2b70ed3f8a90e91ae7a080ac11df1f4e1fb7ab21",
+  "capabilities": [
+    "log"
+  ],
+  "deps": {},
+  "slots": [],
+  "min_host": "0.1.0"
+}

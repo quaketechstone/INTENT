@@ -1,0 +1,13 @@
+{
+  "id": "ext.example.compact-shell",
+  "version": "1.0.0",
+  "name": "紧凑外壳",
+  "kind": "shell",
+  "entry": "index.js",
+  "sha256": "3f76ca3bd7d05d83fb504398f55db3ab10412f30f30b947962f673d5e39f9645",
+  "capabilities": ["log", "kv:cache", "kv:config"],
+  "deps": {},
+  "slots": ["shell.root"],
+  "min_host": "0.11.0",
+  "data": { "on_unload": "retain" }
+}

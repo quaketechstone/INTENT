@@ -1,0 +1,14 @@
+{
+  "id": "site.example.probe.kv",
+  "version": "1.0.0",
+  "name": "能力探针·kv授权",
+  "entry": "index.js",
+  "sha256": "81f98e1171d899dba4777edd792fe4a69d81080a1e902834f57e5e00c9e2feac",
+  "capabilities": [
+    "log",
+    "kv:cache"
+  ],
+  "deps": {},
+  "slots": [],
+  "min_host": "0.1.0"
+}
