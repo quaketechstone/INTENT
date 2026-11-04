@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "name": "WebRTC P2P 数据通道驱动",
   "entry": "driver.js",
-  "sha256": "942cba18b06b6b429ca92268131b7774e917682f69ceb0df130a9c0b52226824",
+  "sha256": "b5cbead49f29597b3d5feee437175aed25b43c198c9d9e533b61b0584ffe06e4",
   "capabilities": [
     "log",
     "kv:cache"

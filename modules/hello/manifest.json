@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "name": "示范模块",
   "entry": "index.js",
-  "sha256": "c8341bb431108f97d14c4a36beb797b3689f5ecd0012a710360080838a1161d4",
+  "sha256": "546bf002f8300099253f08d8d4108f3f9cba73b5b9310829f6e31cd26cdd02be",
   "capabilities": [
     "log"
   ],

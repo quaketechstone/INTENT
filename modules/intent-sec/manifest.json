@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "name": "INT-RLSD 安全驱动（INTENTOS-root level security driver）",
   "entry": "index.js",
-  "sha256": "21f73437e1a97436aff4a6c22e14b3643a04f1695c2075060cb4b0cff47740fe",
+  "sha256": "8b8558986c6a192a139ae829e9fe5cb057cf0f1b168bddf4351e69e118947b66",
   "capabilities": [
     "log",
     "kv:sec"

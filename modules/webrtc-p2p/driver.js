@@ -1,3 +1,4 @@
+const t = (k, p) => globalThis.__INTENT_I18N__?.t?.(k, p) ?? k
 /**
  * net.webrtc.p2p —— WebRTC 组件驱动（构建产物，请勿手改）
  * 构建：node scripts/build.mjs   源目录：src/
@@ -135,47 +136,47 @@ const CLEANUP_MS = 2000;
  * layer: 'client' | 'server'；retryable 决定调用方是否应退避重试。
  */
 const ERROR_CODES = deepFreeze({
-  E_SIGNALING_CONNECT_FAILED: { layer: 'client', retryable: true, message: '信令连接失败' },
-  E_SIGNALING_CONNECT_TIMEOUT: { layer: 'client', retryable: true, message: '信令连接超时' },
-  E_ROOM_JOIN_TIMEOUT: { layer: 'client', retryable: true, message: '加入房间超时' },
-  E_CHANNEL_OPEN_TIMEOUT: { layer: 'client', retryable: true, message: '数据通道打开超时' },
-  E_NEGOTIATION_FAILED: { layer: 'client', retryable: true, message: 'SDP/ICE 协商失败' },
-  E_SIGNALING_LOST: { layer: 'client', retryable: true, message: '信令连接断开' },
-  E_TRANSPORT_LOST: { layer: 'client', retryable: true, message: '传输通道失效（ICE 断开，已尝试 ICE restart）' },
+  E_SIGNALING_CONNECT_FAILED: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.1") },
+  E_SIGNALING_CONNECT_TIMEOUT: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.2") },
+  E_ROOM_JOIN_TIMEOUT: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.3") },
+  E_CHANNEL_OPEN_TIMEOUT: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.4") },
+  E_NEGOTIATION_FAILED: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.5") },
+  E_SIGNALING_LOST: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.6") },
+  E_TRANSPORT_LOST: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.7") },
   /**
    * 过期信令：answer 收到的时机不对（本端已换新 offer / 新 PC），或 ICE 候选
    * 对不上当前会话（ICE restart 换了 ufrag）。**不是错误，是必须丢掉的旧数据**——
    * 单独给一个码，是为了不让它被并进 E_NEGOTIATION_FAILED 把会话判死，
    * 同时又能在地面真值里看见"确实有旧信令在飞"。
    */
-  E_STALE_SIGNAL: { layer: 'client', retryable: false, message: '收到过期信令（已丢弃，不影响会话）' },
-  E_RECONNECT_EXHAUSTED: { layer: 'client', retryable: false, message: '重连次数已用尽' },
-  E_CHANNEL_NOT_OPEN: { layer: 'client', retryable: false, message: '数据通道未打开' },
-  E_MESSAGE_TOO_LARGE: { layer: 'client', retryable: false, message: '消息超过 1 MiB' },
-  E_ILLEGAL_STATE: { layer: 'client', retryable: false, message: '当前状态不接受该操作' },
-  E_DRIVER_CLOSED: { layer: 'client', retryable: false, message: '实例已关闭，请新建实例' },
-  E_INTERNAL: { layer: 'client', retryable: false, message: '内部错误' },
-  E_CONFIG_INVALID: { layer: 'client', retryable: false, message: '配置缺失、非法或来源不被允许' },
-  E_CONFIG_FROZEN: { layer: 'client', retryable: false, message: '配置已在 connect() 后冻结' },
-  E_MISSING_CREDENTIAL: { layer: 'client', retryable: false, message: '凭据句柄无法解析' },
-  E_ROOM_FULL: { layer: 'server', retryable: false, message: '房间已满' },
-  E_INVALID_ROOM_ID: { layer: 'server', retryable: false, message: '房间 ID 不合规' },
-  E_INVALID_SIGNAL: { layer: 'server', retryable: false, message: '信令字段非法' },
-  E_SIGNAL_TOO_LARGE: { layer: 'server', retryable: false, message: '单个信令载荷超过 200 KiB' },
-  E_SIGNALING_MESSAGE_TOO_LARGE: { layer: 'server', retryable: false, message: '信令帧超过 256 KiB' },
-  E_INVALID_MESSAGE: { layer: 'server', retryable: false, message: '信令消息格式非法' },
-  E_NOT_IN_ROOM: { layer: 'server', retryable: false, message: '尚未加入房间' },
-  E_UNKNOWN_MESSAGE_TYPE: { layer: 'server', retryable: false, message: '未知消息类型' },
-  E_UNAUTHORIZED: { layer: 'server', retryable: false, message: '认证失败' },
-  E_RATE_LIMITED: { layer: 'server', retryable: true, message: '触发限流，请退避' },
-  E_UNKNOWN_WIRE_CODE: { layer: 'client', retryable: false, message: '收到未知的服务端错误码' },
+  E_STALE_SIGNAL: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.8") },
+  E_RECONNECT_EXHAUSTED: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.9") },
+  E_CHANNEL_NOT_OPEN: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.10") },
+  E_MESSAGE_TOO_LARGE: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.11") },
+  E_ILLEGAL_STATE: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.12") },
+  E_DRIVER_CLOSED: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.13") },
+  E_INTERNAL: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.14") },
+  E_CONFIG_INVALID: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.15") },
+  E_CONFIG_FROZEN: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.16") },
+  E_MISSING_CREDENTIAL: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.17") },
+  E_ROOM_FULL: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.18") },
+  E_INVALID_ROOM_ID: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.19") },
+  E_INVALID_SIGNAL: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.20") },
+  E_SIGNAL_TOO_LARGE: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.21") },
+  E_SIGNALING_MESSAGE_TOO_LARGE: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.22") },
+  E_INVALID_MESSAGE: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.23") },
+  E_NOT_IN_ROOM: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.24") },
+  E_UNKNOWN_MESSAGE_TYPE: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.25") },
+  E_UNAUTHORIZED: { layer: 'server', retryable: false, message: t("driver.webrtc-p2p.driver.message.26") },
+  E_RATE_LIMITED: { layer: 'server', retryable: true, message: t("driver.webrtc-p2p.driver.message.27") },
+  E_UNKNOWN_WIRE_CODE: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.28") },
   // --- rev.3 新增（SCHEMA §18.6 壳与节点）---
-  E_NODE_EXISTS: { layer: 'client', retryable: false, message: '同一 Shell 内 nodeId 重复' },
-  E_NODE_NOT_FOUND: { layer: 'client', retryable: false, message: 'Shell 内不存在该 nodeId' },
-  E_NODE_LIMIT: { layer: 'client', retryable: false, message: '单 Shell 节点数已达上限' },
-  E_SHELL_DISPOSED: { layer: 'client', retryable: false, message: 'Shell 已销毁，禁止创建节点' },
-  E_CANCELLED: { layer: 'client', retryable: false, message: '操作被 close()/unmount() 取消' },
-  E_BUFFER_FULL: { layer: 'client', retryable: true, message: '发送缓冲已满，请退避后重试' },
+  E_NODE_EXISTS: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.29") },
+  E_NODE_NOT_FOUND: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.30") },
+  E_NODE_LIMIT: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.31") },
+  E_SHELL_DISPOSED: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.32") },
+  E_CANCELLED: { layer: 'client', retryable: false, message: t("driver.webrtc-p2p.driver.message.33") },
+  E_BUFFER_FULL: { layer: 'client', retryable: true, message: t("driver.webrtc-p2p.driver.message.34") },
 });
 
 /**
@@ -889,9 +890,9 @@ class Node {
    * @param {(event: string, detail: object) => void} [opts.onEvent]
    */
   constructor({ nodeId, env, config, sources, iceAuth = null, onEvent }) {
-    if (!nodeId) throw new TypeError('nodeId 必填');
+    if (!nodeId) throw new TypeError(t("driver.webrtc-p2p.driver.error.2"));
     if (!env || typeof env.openSocket !== 'function' || typeof env.createPeerConnection !== 'function') {
-      throw new TypeError('env 必须提供 openSocket/createPeerConnection');
+      throw new TypeError(t("driver.webrtc-p2p.driver.error.3"));
     }
     this.nodeId = nodeId;
     this._env = env;
@@ -1060,7 +1061,7 @@ class Node {
 
   /** 订阅快照。回调同步触发一次当前快照（订阅即得现状，避免"等下一次变化"）。 */
   subscribe(cb) {
-    if (typeof cb !== 'function') throw new TypeError('subscribe 需要函数');
+    if (typeof cb !== 'function') throw new TypeError(t("driver.webrtc-p2p.driver.error.4"));
     this._subs.add(cb);
     try {
       cb(this.snapshot());
@@ -1221,7 +1222,7 @@ class Node {
   _assertParts(edgeId) {
     const allowed = PARTS_BY_STATE[this._state];
     const required = REQUIRED_PARTS[this._state];
-    if (!allowed || !required) throw new Error(`未知状态：${this._state}`);
+    if (!allowed || !required) throw new Error(t("driver.webrtc-p2p.driver.error.6", { _state: this._state }));
     const present = new Set(this._parts.keys());
     const extra = [...present].filter((p) => !allowed.includes(p));
     const missing = required.filter((p) => !present.has(p));
@@ -1410,7 +1411,7 @@ const EFFECTS = {
   },
   sendJoin() {
     const socket = this._parts.get(PARTS.SOCKET);
-    if (!socket) throw new Error('sendJoin 时 socket 不存在');
+    if (!socket) throw new Error(t("driver.webrtc-p2p.driver.error.8"));
     socket.send(JSON.stringify({ type: 'join', roomId: this._roomId }));
   },
 
@@ -1998,8 +1999,8 @@ class Shell {
    * @param {(event:string, detail:object)=>void} [opts.onEvent]
    */
   constructor({ ctx, env, manifestDefaults = {}, onEvent } = {}) {
-    if (!ctx) throw new TypeError('Shell 需要 ctx');
-    if (!env) throw new TypeError('Shell 需要 env');
+    if (!ctx) throw new TypeError(t("driver.webrtc-p2p.driver.error.9"));
+    if (!env) throw new TypeError(t("driver.webrtc-p2p.driver.error.10"));
     this.ctx = ctx;
     this.env = env;
     this.manifestDefaults = manifestDefaults;
@@ -2235,10 +2236,10 @@ function makeHandle(node, onClosed = () => {}) {
  */
 function browserEnv(g = globalThis) {
   if (!g || typeof g.WebSocket !== 'function') {
-    throw new TypeError('当前环境没有 WebSocket：无法建立信令连接');
+    throw new TypeError(t("driver.webrtc-p2p.driver.error.11"));
   }
   if (typeof g.RTCPeerConnection !== 'function') {
-    throw new TypeError('当前环境没有 RTCPeerConnection：无法建立数据通道');
+    throw new TypeError(t("driver.webrtc-p2p.driver.error.12"));
   }
   return {
     openSocket(url) {
@@ -2261,10 +2262,10 @@ function browserEnv(g = globalThis) {
 function offlineEnv(g = globalThis) {
   return {
     openSocket() {
-      throw new Error('offline-env: 不可建连');
+      throw new Error(t("driver.webrtc-p2p.driver.error.13"));
     },
     createPeerConnection() {
-      throw new Error('offline-env: 不可建连');
+      throw new Error(t("driver.webrtc-p2p.driver.error.14"));
     },
     now: () => Date.now(),
     setTimeout: (fn, ms) => g.setTimeout(fn, ms),
@@ -2291,15 +2292,15 @@ function offlineEnv(g = globalThis) {
 
 /** 状态 → 中文短语（仅展示用，不参与任何判定）。 */
 const STATE_TEXT = {
-  [SHELL_STATES.MOUNTED]: '已装载',
-  [SHELL_STATES.DISPOSED]: '已卸载',
-  [STATES.CLOSED]: '已关闭',
-  [STATES.FAILED]: '失败',
-  [STATES.DISCONNECTED]: '未连接',
-  [STATES.CONNECTING]: '连接中',
-  [STATES.CONNECTED]: '已连接',
-  [STATES.CHANNEL_OPEN]: '通道已打开',
-  [STATES.RECONNECTING]: '重连中',
+  [SHELL_STATES.MOUNTED]: t("driver.webrtc-p2p.driver.text.2"),
+  [SHELL_STATES.DISPOSED]: t("driver.webrtc-p2p.driver.text.3"),
+  [STATES.CLOSED]: t("driver.webrtc-p2p.driver.text.4"),
+  [STATES.FAILED]: t("driver.webrtc-p2p.driver.text.5"),
+  [STATES.DISCONNECTED]: t("driver.webrtc-p2p.driver.text.6"),
+  [STATES.CONNECTING]: t("driver.webrtc-p2p.driver.text.7"),
+  [STATES.CONNECTED]: t("driver.webrtc-p2p.driver.text.8"),
+  [STATES.CHANNEL_OPEN]: t("driver.webrtc-p2p.driver.text.9"),
+  [STATES.RECONNECTING]: t("driver.webrtc-p2p.driver.text.10"),
 };
 
 function stateText(s) {
@@ -2312,14 +2313,14 @@ function stateText(s) {
  * 信令地址属装配方注入（injected > kv > manifest > default），UI 不代填。
  */
 const ERR_TEXT = {
-  E_CONFIG_INVALID: '缺少信令地址 signalingUrl，请到「驱动实验室 → 配置」填入后重试',
-  E_NODE_EXISTS: '该节点已存在，换个 nodeId 再试',
-  E_NODE_LIMIT: '节点数已达上限（16），先关闭不用的节点',
-  E_SHELL_DISPOSED: '驱动已卸载，请重新装载后再试',
+  E_CONFIG_INVALID: t("driver.webrtc-p2p.driver.text.11"),
+  E_NODE_EXISTS: t("driver.webrtc-p2p.driver.text.12"),
+  E_NODE_LIMIT: t("driver.webrtc-p2p.driver.text.13"),
+  E_SHELL_DISPOSED: t("driver.webrtc-p2p.driver.text.14"),
 };
 
 function errText(code) {
-  if (!code) return '未知错误';
+  if (!code) return t("driver.webrtc-p2p.driver.text.15");
   return ERR_TEXT[code] ? `${ERR_TEXT[code]}（${code}）` : code;
 }
 
@@ -2373,8 +2374,8 @@ function mountUi({ ctx, shell }) {
       'font-size:11.5px;padding:3px 10px;border-radius:7px;border:1px solid var(--line, #e3e6ee);background:var(--surface-2, #f6f7fb);color:inherit;cursor:pointer';
     return b;
   };
-  const addBtn = mkBtn('建节点');
-  const refreshBtn = mkBtn('刷新');
+  const addBtn = mkBtn(t("driver.webrtc-p2p.driver.text.16"));
+  const refreshBtn = mkBtn(t("driver.webrtc-p2p.driver.text.17"));
   actions.append(addBtn, refreshBtn);
 
   const list = document.createElement('div');
@@ -2393,13 +2394,13 @@ function mountUi({ ctx, shell }) {
 
   function render() {
     badge.textContent = stateText(shell.state);
-    meta.textContent = `槽位 ${shell.uiSlot} · 节点 ${shell.nodes.size}`;
+    meta.textContent = t("driver.webrtc-p2p.driver.text.18", { uiSlot: shell.uiSlot, size: shell.nodes.size });
     list.textContent = '';
     const snaps = shell.snapshots();
     if (!snaps.length) {
       const empty = document.createElement('div');
       empty.style.cssText = 'color:var(--muted, #6b7280);font-size:11px';
-      empty.textContent = '还没有节点。点「建节点」创建一个。';
+      empty.textContent = t("driver.webrtc-p2p.driver.text.19");
       list.append(empty);
     }
     for (const s of snaps) {
@@ -2408,7 +2409,7 @@ function mountUi({ ctx, shell }) {
       row.style.cssText = 'display:flex;align-items:center;gap:8px;justify-content:space-between';
       const info = document.createElement('span');
       info.textContent = `${s.nodeId} · ${stateText(s.state)}`;
-      const close = mkBtn('关闭');
+      const close = mkBtn(t("driver.webrtc-p2p.driver.text.20"));
       close.dataset.driverUiClose = s.nodeId;
       close.onclick = async () => {
         const h = shell.getNode(s.nodeId);
@@ -2424,7 +2425,7 @@ function mountUi({ ctx, shell }) {
       row.append(info, close);
       list.append(row);
     }
-    note.textContent = '驱动自渲染（只读投影 + 输入映射）；首次使用需在「驱动实验室 → 配置」填信令地址。';
+    note.textContent = t("driver.webrtc-p2p.driver.text.21");
   }
 
   /** 订阅某个节点的事件：事件即状态投影的刷新信号。 */
@@ -2445,7 +2446,7 @@ function mountUi({ ctx, shell }) {
       watch(r.value);
       render();
     } else {
-      note.textContent = `建节点失败：${errText(r && r.error ? r.error.code : null)}`;
+      note.textContent = t("driver.webrtc-p2p.driver.text.22", { arg1: errText(r && r.error ? r.error.code : null) });
     }
   };
   refreshBtn.onclick = () => {

@@ -4,10 +4,18 @@
   "name": "紧凑外壳",
   "kind": "shell",
   "entry": "index.js",
-  "sha256": "3f76ca3bd7d05d83fb504398f55db3ab10412f30f30b947962f673d5e39f9645",
-  "capabilities": ["log", "kv:cache", "kv:config"],
+  "sha256": "18caa0efe19e041657ac40184b353393b9a2d506e63fbc96a091ffd482f9ae41",
+  "capabilities": [
+    "log",
+    "kv:cache",
+    "kv:config"
+  ],
   "deps": {},
-  "slots": ["shell.root"],
+  "slots": [
+    "shell.root"
+  ],
   "min_host": "0.11.0",
-  "data": { "on_unload": "retain" }
+  "data": {
+    "on_unload": "retain"
+  }
 }

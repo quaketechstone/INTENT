@@ -1,3 +1,4 @@
+const t = (k, p) => globalThis.__INTENT_I18N__?.t?.(k, p) ?? k
 /**
  * 示例 UI 插件：计数面板。
  *
@@ -65,12 +66,12 @@ export async function mount(ctx) {
       .hello-plugin button:hover { border-color: var(--accent); color: var(--accent); }
       .hello-plugin .hp-note { font-size: 11px; color: var(--subtle); }
     </style>
-    <h3>示例插件 <span class="hp-tag">已装载</span></h3>
-    <p>它只有一个槽位（plugin.slot.hello）和两项能力（log、kv:cache）。计数存在 kv:cache 里，刷新后还在。</p>
+    <h3>${t('plugin.hello.plugin.title.1')} <span class="hp-tag">${t('plugin.hello.plugin.text.1')}</span></h3>
+    <p>${t('plugin.hello.plugin.text.6')}</p>
     <div class="hp-row">
       <span class="hp-num" data-hp-count>0</span>
       <button type="button" data-hp-inc>+1</button>
-      <button type="button" data-hp-reset>清零</button>
+      <button type="button" data-hp-reset>${t('plugin.hello.plugin.text.7')}</button>
     </div>
     <p class="hp-note" data-hp-note></p>
   `
@@ -82,8 +83,8 @@ export async function mount(ctx) {
     if (numEl) numEl.textContent = String(count)
     if (noteEl) {
       noteEl.textContent = kv
-        ? '计数已持久化到 kv:cache'
-        : '没有 kv:cache 授权，计数只在内存里'
+        ? t("plugin.hello.plugin.text.4")
+        : t("plugin.hello.plugin.text.5")
     }
   }
 

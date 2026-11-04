@@ -1,3 +1,4 @@
+const t = (k, p) => globalThis.__INTENT_I18N__?.t?.(k, p) ?? k
 /**
  * 示例 Shell Provider：紧凑外壳。
  *
@@ -28,10 +29,10 @@ function readViews(host) {
     /* 解析失败按最小清单处理：外壳不该因为一个属性格式不对就整个不显示 */
   }
   return [
-    { id: 'desktop', label: '桌面' },
-    { id: 'drivers', label: '驱动' },
-    { id: 'extensions', label: '扩展' },
-    { id: 'settings', label: '设置' },
+    { id: 'desktop', label: t("shell.compact.shell.label.1") },
+    { id: 'drivers', label: t("shell.compact.shell.label.2") },
+    { id: 'extensions', label: t("shell.compact.shell.label.3") },
+    { id: 'settings', label: t("shell.compact.shell.label.4") },
   ]
 }
 
@@ -91,10 +92,10 @@ export async function mount(ctx) {
     <div class="cs-top">
       <span class="cs-brand">intent<i>.</i>os</span>
       <span class="cs-crumb" data-cs-crumb></span>
-      <span class="cs-hint">紧凑外壳 · 由 Shell Provider 接管</span>
+      <span class="cs-hint">${t('shell.compact.shell.text.1')}</span>
     </div>
     <div class="cs-body">
-      <nav class="cs-rail" aria-label="主导航"></nav>
+      <nav class="cs-rail" aria-label="${t('mother.shell.html.aria.1')}"></nav>
       <main class="cs-content" data-shell-content></main>
     </div>
   `

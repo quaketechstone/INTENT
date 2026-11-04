@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#4b61d1" />
-  <meta name="description" content="INTENT-OS Mother：最小化的操作系统根，只保留 Identity / Trust / 最终授权 / 治理 / 装载五项 Root 能力" />
+  <meta name="description" content="INTENT-OS Mother" data-i18n-content="mother.shell.html.meta.1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="INTENT-OS" />
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
   <title>INTENT-OS Mother</title>
-  <script type="module" crossorigin src="/INTENT/assets/index-Displgrx.js"></script>
+  <script type="module" crossorigin src="/INTENT/assets/index-128OBWNB.js"></script>
   <link rel="stylesheet" crossorigin href="/INTENT/assets/index-Dr-UlcWh.css">
 <link rel="manifest" href="/INTENT/manifest.webmanifest"></head>
 <body>
@@ -35,21 +35,21 @@
        chat.main 槽位——那些属于 AI 业务，已迁到独立工程。
        ============================================================ -->
   <div class="app-shell" id="appShell">
-    <aside class="sidebar" id="sidebar" aria-label="主导航">
+    <aside class="sidebar" id="sidebar" aria-label="主导航" data-i18n-aria="mother.shell.html.aria.1">
       <div class="brand-row">
         <div class="brand-mark">Q</div>
         <span class="brand-name">intent<span class="brand-dot">.</span>os</span>
-        <button class="icon-btn mobile-only" id="closeSidebar" aria-label="关闭导航">×</button>
+        <button class="icon-btn mobile-only" id="closeSidebar" aria-label="关闭导航" data-i18n-aria="mother.shell.html.aria.2">×</button>
       </div>
       <!-- 导航由视图注册表渲染（views/index.ts）：加页面只改注册表，不改这里。 -->
-      <nav class="nav-section" id="navList" aria-label="功能导航"></nav>
+      <nav class="nav-section" id="navList" aria-label="功能导航" data-i18n-aria="mother.shell.html.aria.3"></nav>
       <div class="sidebar-bottom">
-        <button class="nav-item" id="installApp" hidden><svg class="nav-icon" aria-hidden="true"><use href="#i-install"/></svg> 安装到桌面</button>
+        <button class="nav-item" id="installApp" hidden><svg class="nav-icon" aria-hidden="true"><use href="#i-install"/></svg> <span data-i18n="mother.shell.html.text.1">安装到桌面</span></button>
         <div class="nav-version" id="installAppVersion"></div>
         <div class="nav-version" id="sideFoot"></div>
         <div class="user-mini">
           <div class="avatar" id="statusAvatar">Q</div>
-          <div class="user-meta"><strong>母体根</strong><span id="statusLine">正在启动母体…</span></div>
+          <div class="user-meta"><strong data-i18n="mother.shell.html.text.2">母体根</strong><span id="statusLine" data-i18n="mother.shell.html.text.3">正在启动母体…</span></div>
           <span class="status-dot" id="statusDot"></span>
         </div>
       </div>
@@ -58,12 +58,12 @@
     <main class="main-area">
       <header class="topbar">
         <div class="topbar-left">
-          <button class="icon-btn mobile-only" id="openSidebar" aria-label="打开导航">☰</button>
-          <span class="breadcrumb" id="breadcrumb">控制桌面</span>
+          <button class="icon-btn mobile-only" id="openSidebar" aria-label="打开导航" data-i18n-aria="mother.shell.html.aria.4">☰</button>
+          <span class="breadcrumb" id="breadcrumb" data-i18n="mother.shell.html.text.4">控制桌面</span>
         </div>
         <div class="topbar-actions">
-          <span class="pill" id="offlinePill" hidden>离线</span>
-          <button class="icon-btn" id="quickSettings" title="设置" aria-label="设置"><svg class="nav-icon" aria-hidden="true"><use href="#i-settings"/></svg></button>
+          <span class="pill" id="offlinePill" hidden data-i18n="mother.shell.html.text.5">离线</span>
+          <button class="icon-btn" id="quickSettings" title="设置" aria-label="设置" data-i18n-title="mother.shell.html.title.1" data-i18n-aria="mother.shell.html.aria.5"><svg class="nav-icon" aria-hidden="true"><use href="#i-settings"/></svg></button>
         </div>
       </header>
       <div class="view-host" id="view" aria-live="polite"></div>
@@ -76,7 +76,7 @@
   <div id="shellHost" data-slot="shell.root"></div>
 
   <!-- 移动端底部导航（< 900px 显示）。由视图注册表的 tab 项渲染。 -->
-  <nav class="tabbar" id="tabbar" aria-label="主导航">
+  <nav class="tabbar" id="tabbar" aria-label="主导航" data-i18n-aria="mother.shell.html.aria.6">
     <div class="tabbar-inner" id="tabbarInner"></div>
   </nav>
 

@@ -1,3 +1,4 @@
+const t = (k, p) => globalThis.__INTENT_I18N__?.t?.(k, p) ?? k
 /**
  * 示范动态模块：site.example.hello
  *
@@ -16,7 +17,7 @@ export default {
     const box = document.createElement('div')
     box.className = 'module-hello'
     box.dataset.module = 'site.example.hello'
-    box.textContent = '示范模块已激活（动态装载）'
+    box.textContent = t("module.hello.module.text.2")
     host.append(box)
 
     // 演示「卸载≠隐藏」：定时器必须在 DESTROYED 前真正停掉

@@ -1,3 +1,4 @@
+const t = (k, p) => globalThis.__INTENT_I18N__?.t?.(k, p) ?? k
 /**
  * INT-RLSD — INTENTOS-root level security driver
  * ============================================================================
@@ -105,21 +106,21 @@ export const DEFAULT_POLICY = {
   policy_version: '1.0.0',
   applies_to: { module_id: 'intent.sec.kernel', module_version_range: '0.0.x', host_min: '0.2.0', host_max: '*' },
   axioms: [
-    { id: 'S-01', name: '默认拒绝', value: { default_action: 'DENY' }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-03', name: '字段多不等于权利多', value: { unknown_field_action: 'REJECT_FORMAT' }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-04', name: '完整性不等于可信', value: { artifact_max_verdict: 'CONDITIONAL', verified_trusted_allowed: false }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-06', name: '结论必须标注作用范围', value: { decision_must_declare_scope: true }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-07', name: 'AI 不得覆盖确定性拒绝', value: { ai_override_allowed: false }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-08', name: '不得静默吞掉错误', value: { silent_error_allowed: false, error_mapping: 'CONFLICT_OR_UNAVAILABLE' }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-09', name: '本地化优先/最小依赖', value: { network_required: false, declared_capabilities: ['log', 'kv:sec'] }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-11', name: '隐私优先/脱敏', value: { plaintext_user_data_in_receipts: false, plaintext_user_data_in_events: false, store_only: ['digest', 'reference'] }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-13', name: '不得修改母体核心', value: { host_core_modification_allowed: false }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-15', name: '局部失效不拖垮母体', value: { fail_open_on_driver_inactive: true, record_diagnostic_event: true }, hard: true, status: 'SPECIFIED' },
-    { id: 'S-02', name: '（条文原文未提供）', value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
-    { id: 'S-05', name: '（条文原文未提供）', value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
-    { id: 'S-10', name: '（条文原文未提供）', value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
-    { id: 'S-12', name: '（条文原文未提供）', value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
-    { id: 'S-14', name: '（条文原文未提供）', value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
+    { id: 'S-01', name: t("driver.intent-sec.driver.name.1"), value: { default_action: 'DENY' }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-03', name: t("driver.intent-sec.driver.name.2"), value: { unknown_field_action: 'REJECT_FORMAT' }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-04', name: t("driver.intent-sec.driver.name.3"), value: { artifact_max_verdict: 'CONDITIONAL', verified_trusted_allowed: false }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-06', name: t("driver.intent-sec.driver.name.4"), value: { decision_must_declare_scope: true }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-07', name: t("driver.intent-sec.driver.name.5"), value: { ai_override_allowed: false }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-08', name: t("driver.intent-sec.driver.name.6"), value: { silent_error_allowed: false, error_mapping: 'CONFLICT_OR_UNAVAILABLE' }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-09', name: t("driver.intent-sec.driver.name.7"), value: { network_required: false, declared_capabilities: ['log', 'kv:sec'] }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-11', name: t("driver.intent-sec.driver.name.8"), value: { plaintext_user_data_in_receipts: false, plaintext_user_data_in_events: false, store_only: ['digest', 'reference'] }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-13', name: t("driver.intent-sec.driver.name.9"), value: { host_core_modification_allowed: false }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-15', name: t("driver.intent-sec.driver.name.10"), value: { fail_open_on_driver_inactive: true, record_diagnostic_event: true }, hard: true, status: 'SPECIFIED' },
+    { id: 'S-02', name: t("driver.intent-sec.driver.name.11"), value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
+    { id: 'S-05', name: t("driver.intent-sec.driver.name.12"), value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
+    { id: 'S-10', name: t("driver.intent-sec.driver.name.13"), value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
+    { id: 'S-12', name: t("driver.intent-sec.driver.name.14"), value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
+    { id: 'S-14', name: t("driver.intent-sec.driver.name.15"), value: null, hard: false, status: 'UNKNOWN_PENDING_SPEC' },
   ],
   capability_catalog: {
     /**
@@ -155,7 +156,7 @@ export const DEFAULT_POLICY = {
       'log', 'kv:cache', 'kv:sec', 'kv:config', 'http:dynamic',
       'ui:slot:app.main', 'ui:slot:app.sidebar', 'ui:slot:plugin.slot.*', 'ui:slot:shell.root',
     ],
-    kv_fallback: { when: 'kv:sec 未授权', use: 'kv:cache', key_prefix: 'sec:', two_state_tested: true },
+    kv_fallback: { when: t("driver.intent-sec.driver.condition.1"), use: 'kv:cache', key_prefix: 'sec:', two_state_tested: true },
   },
   operation_catalog: [
     'module.load', 'module.unload', 'capability.use', 'policy.change', 'artifact.verify',
@@ -171,14 +172,14 @@ export const DEFAULT_POLICY = {
   quotas: {
     profile: 'static-fused',
     items: {
-      storage_bytes: { limit: 10485760, unit: 'bytes', enforcement: 'DECLARED', desc: '存储 10MiB' },
-      requests_per_min: { limit: 60, unit: 'count/min', enforcement: 'DECLARED', desc: '请求 60 次/分钟' },
-      timers: { limit: 50, unit: 'count', enforcement: 'DECLARED', desc: '定时器 50' },
+      storage_bytes: { limit: 10485760, unit: 'bytes', enforcement: 'DECLARED', desc: t("driver.intent-sec.driver.description.1") },
+      requests_per_min: { limit: 60, unit: 'count/min', enforcement: 'DECLARED', desc: t("driver.intent-sec.driver.description.2") },
+      timers: { limit: 50, unit: 'count', enforcement: 'DECLARED', desc: t("driver.intent-sec.driver.description.3") },
       detail_bytes: { limit: 65536, unit: 'bytes', enforcement: 'DECLARED', desc: 'detail 64KiB' },
       dom_nodes: { limit: 5000, unit: 'count', enforcement: 'DECLARED', desc: 'DOM 5000' },
-      cold_start_ms: { limit: 200, unit: 'ms', enforcement: 'DECLARED', desc: '冷启 200ms' },
+      cold_start_ms: { limit: 200, unit: 'ms', enforcement: 'DECLARED', desc: t("driver.intent-sec.driver.description.4") },
     },
-    undefined_no_guessing: ['WASM 内存上限', '单次执行时长', '并发数'],
+    undefined_no_guessing: [t("driver.intent-sec.driver.text.1"), t("driver.intent-sec.driver.text.2"), t("driver.intent-sec.driver.text.3")],
   },
   defaults: {
     ttl_ms: 3600000,
@@ -326,57 +327,57 @@ export function validateRequest(input, opts = {}) {
   const errors = []
   const fail = (field, reason) => errors.push({ field, kind: 'format', reason })
 
-  if (!isPlainObject(input)) return { ok: false, errors: [{ field: '<root>', kind: 'format', reason: '请求不是对象' }] }
+  if (!isPlainObject(input)) return { ok: false, errors: [{ field: '<root>', kind: 'format', reason: t("driver.intent-sec.driver.reason.1") }] }
 
-  for (const k of Object.keys(input)) if (!REQUEST_FIELDS.includes(k)) fail(k, '未知字段（S-03：字段多不等于权利多）')
-  for (const k of REQUEST_FIELDS) if (input[k] === undefined) fail(k, '必填字段缺失')
+  for (const k of Object.keys(input)) if (!REQUEST_FIELDS.includes(k)) fail(k, t('driver.intent-sec.driver.valid.unknownField'))
+  for (const k of REQUEST_FIELDS) if (input[k] === undefined) fail(k, t('driver.intent-sec.driver.valid.required'))
 
-  if (typeof input.request_id !== 'string' || !UUID_V4.test(input.request_id)) fail('request_id', '必须是 uuidv4')
-  if (!isNonEmptyString(input.subject_ref)) fail('subject_ref', '必须是非空字符串（声明式引用，非身份证明）')
-  if (!isNonEmptyString(input.driver_ref)) fail('driver_ref', '必须是非空字符串')
-  if (!isNonEmptyString(input.operation)) fail('operation', '必须是非空字符串')
-  if (input.target_ref !== null && !isNonEmptyString(input.target_ref)) fail('target_ref', '必须是 null 或非空字符串')
-  if (typeof input.input_digest !== 'string' || !HEX64.test(input.input_digest)) fail('input_digest', '必须是 64 位十六进制 sha256')
+  if (typeof input.request_id !== 'string' || !UUID_V4.test(input.request_id)) fail('request_id', t('driver.intent-sec.driver.valid.uuid'))
+  if (!isNonEmptyString(input.subject_ref)) fail('subject_ref', t('driver.intent-sec.driver.valid.nonEmptySubject'))
+  if (!isNonEmptyString(input.driver_ref)) fail('driver_ref', t('driver.intent-sec.driver.valid.nonEmpty'))
+  if (!isNonEmptyString(input.operation)) fail('operation', t('driver.intent-sec.driver.valid.nonEmpty'))
+  if (input.target_ref !== null && !isNonEmptyString(input.target_ref)) fail('target_ref', t('driver.intent-sec.driver.valid.nullOrNonEmpty'))
+  if (typeof input.input_digest !== 'string' || !HEX64.test(input.input_digest)) fail('input_digest', t('driver.intent-sec.driver.valid.sha256'))
 
-  if (!Array.isArray(input.requested_capabilities)) fail('requested_capabilities', '必须是数组')
+  if (!Array.isArray(input.requested_capabilities)) fail('requested_capabilities', t('driver.intent-sec.driver.valid.array'))
   else {
     for (const c of input.requested_capabilities) {
-      if (typeof c !== 'string' || !c.length) fail('requested_capabilities', '元素必须是非空字符串')
-      else if (!known.includes(c)) fail('requested_capabilities', `未知能力：${c}`)
+      if (typeof c !== 'string' || !c.length) fail('requested_capabilities', t("driver.intent-sec.driver.text.13"))
+      else if (!known.includes(c)) fail('requested_capabilities', t("driver.intent-sec.driver.text.14", { c: c }))
     }
   }
 
-  if (!isNonEmptyString(input.policy_context)) fail('policy_context', '必须是非空字符串')
+  if (!isNonEmptyString(input.policy_context)) fail('policy_context', t('driver.intent-sec.driver.valid.nonEmpty'))
 
   const cs = input.constraints
-  if (!isPlainObject(cs)) fail('constraints', '必须是对象')
+  if (!isPlainObject(cs)) fail('constraints', t('driver.intent-sec.driver.valid.object'))
   else {
-    for (const k of Object.keys(cs)) if (!CONSTRAINT_KEYS.includes(k)) fail(`constraints.${k}`, `未知键（只允许 ${CONSTRAINT_KEYS.join('/')}）`)
+    for (const k of Object.keys(cs)) if (!CONSTRAINT_KEYS.includes(k)) fail(`constraints.${k}`, t("driver.intent-sec.driver.text.17", { arg1: CONSTRAINT_KEYS.join('/') }))
     if (cs.scope !== undefined) {
-      if (!isPlainObject(cs.scope)) fail('constraints.scope', '必须是对象')
+      if (!isPlainObject(cs.scope)) fail('constraints.scope', t("driver.intent-sec.driver.text.18"))
       else {
         for (const k of Object.keys(cs.scope)) {
-          if (!SCOPE_KEYS.includes(k)) fail(`constraints.scope.${k}`, `未知键（只允许 ${SCOPE_KEYS.join('/')}）`)
-          else if (!Array.isArray(cs.scope[k]) || !cs.scope[k].every(isNonEmptyString)) fail(`constraints.scope.${k}`, '必须是非空字符串数组')
+          if (!SCOPE_KEYS.includes(k)) fail(`constraints.scope.${k}`, t("driver.intent-sec.driver.text.19", { arg1: SCOPE_KEYS.join('/') }))
+          else if (!Array.isArray(cs.scope[k]) || !cs.scope[k].every(isNonEmptyString)) fail(`constraints.scope.${k}`, t("driver.intent-sec.driver.text.20"))
         }
       }
     }
     if (cs.budget !== undefined) {
-      if (!isPlainObject(cs.budget)) fail('constraints.budget', '必须是对象')
+      if (!isPlainObject(cs.budget)) fail('constraints.budget', t("driver.intent-sec.driver.text.21"))
       else {
         for (const k of Object.keys(cs.budget)) {
-          if (!BUDGET_KEYS.includes(k)) fail(`constraints.budget.${k}`, `未知键（只允许 ${BUDGET_KEYS.join('/')}）`)
-          else if (typeof cs.budget[k] !== 'number' || !Number.isFinite(cs.budget[k]) || cs.budget[k] < 0) fail(`constraints.budget.${k}`, '必须是非负 number')
+          if (!BUDGET_KEYS.includes(k)) fail(`constraints.budget.${k}`, t("driver.intent-sec.driver.text.22", { arg1: BUDGET_KEYS.join('/') }))
+          else if (typeof cs.budget[k] !== 'number' || !Number.isFinite(cs.budget[k]) || cs.budget[k] < 0) fail(`constraints.budget.${k}`, t("driver.intent-sec.driver.text.23"))
         }
       }
     }
     if (cs.valid_until !== undefined && (typeof cs.valid_until !== 'number' || !Number.isFinite(cs.valid_until))) {
-      fail('constraints.valid_until', '必须是 number（epoch 毫秒）')
+      fail('constraints.valid_until', t("driver.intent-sec.driver.text.24"))
     }
   }
 
-  if (!Array.isArray(input.evidence_refs)) fail('evidence_refs', '必须是数组')
-  else if (!input.evidence_refs.every(isNonEmptyString)) fail('evidence_refs', '元素必须是非空字符串')
+  if (!Array.isArray(input.evidence_refs)) fail('evidence_refs', t('driver.intent-sec.driver.valid.array'))
+  else if (!input.evidence_refs.every(isNonEmptyString)) fail('evidence_refs', t('driver.intent-sec.driver.valid.elements'))
 
   if (errors.length) return { ok: false, errors }
   return { ok: true, value: clone(input), normalized: canonicalize(input) }
@@ -394,22 +395,22 @@ export function loadPolicy(raw, opts = {}) {
   const base = clone(opts.base || DEFAULT_POLICY)
   const errors = []
   if (raw === undefined || raw === null) return { ok: true, policy: base }
-  if (!isPlainObject(raw)) return { ok: false, errors: [{ code: 'FORMAT', reason: '策略不是对象' }] }
-  if (!isNonEmptyString(raw.policy_id)) errors.push({ code: 'FORMAT', reason: 'policy_id 缺失' })
-  if (!isNonEmptyString(raw.policy_version)) errors.push({ code: 'FORMAT', reason: 'policy_version 缺失' })
+  if (!isPlainObject(raw)) return { ok: false, errors: [{ code: 'FORMAT', reason: t("driver.intent-sec.driver.reason.2") }] }
+  if (!isNonEmptyString(raw.policy_id)) errors.push({ code: 'FORMAT', reason: t("driver.intent-sec.driver.reason.3") })
+  if (!isNonEmptyString(raw.policy_version)) errors.push({ code: 'FORMAT', reason: t("driver.intent-sec.driver.reason.4") })
 
   const baseById = new Map(base.axioms.map((a) => [a.id, a]))
   const seen = new Map()
   for (const a of Array.isArray(raw.axioms) ? raw.axioms : []) {
-    if (!a || typeof a.id !== 'string') { errors.push({ code: 'FORMAT', reason: 'axiom 缺少 id' }); continue }
+    if (!a || typeof a.id !== 'string') { errors.push({ code: 'FORMAT', reason: t("driver.intent-sec.driver.reason.5") }); continue }
     if (seen.has(a.id) && JSON.stringify(seen.get(a.id)) !== JSON.stringify(a.value)) {
-      errors.push({ code: 'CONFLICT', reason: `公理 ${a.id} 出现互相冲突的取值` })
+      errors.push({ code: 'CONFLICT', reason: t("driver.intent-sec.driver.reason.6", { id: a.id }) })
       continue
     }
     seen.set(a.id, a.value)
     const b = baseById.get(a.id)
     if (b && b.hard && JSON.stringify(b.value) !== JSON.stringify(a.value)) {
-      errors.push({ code: 'CONFLICT', reason: `硬公理 ${a.id} 不可被覆盖` })
+      errors.push({ code: 'CONFLICT', reason: t("driver.intent-sec.driver.reason.7", { id: a.id }) })
       continue
     }
     if (b) b.value = clone(a.value)
@@ -420,7 +421,7 @@ export function loadPolicy(raw, opts = {}) {
   const apply = raw.applies_to || base.applies_to
   if (apply && isNonEmptyString(apply.host_min) && isNonEmptyString(opts.hostVersion)) {
     if (cmpSemver(opts.hostVersion, apply.host_min) < 0) {
-      errors.push({ code: 'VERSION', reason: `策略要求母体 >= ${apply.host_min}，当前 ${opts.hostVersion}` })
+      errors.push({ code: 'VERSION', reason: t("driver.intent-sec.driver.reason.8", { host_min: apply.host_min, hostVersion: opts.hostVersion }) })
     }
   }
   if (errors.length) return { ok: false, errors }
@@ -442,13 +443,13 @@ export function checkAxioms(operation, policyState = DEFAULT_POLICY, opts = {}) 
   const conflicts = []
   const byId = new Map((policyState.axioms || []).map((a) => [a.id, a]))
   const S01 = byId.get('S-01')
-  if (!S01 || S01.value?.default_action !== 'DENY') conflicts.push('S-01 默认拒绝公理缺失或被篡改')
+  if (!S01 || S01.value?.default_action !== 'DENY') conflicts.push(t('driver.intent-sec.driver.valid.axiomS01'))
   const S07 = byId.get('S-07')
-  if (!S07 || S07.value?.ai_override_allowed !== false) conflicts.push('S-07 AI 不得覆盖确定性拒绝 被篡改')
+  if (!S07 || S07.value?.ai_override_allowed !== false) conflicts.push(t('driver.intent-sec.driver.valid.axiomS07'))
   const S04 = byId.get('S-04')
-  if (!S04 || S04.value?.verified_trusted_allowed !== false) conflicts.push('S-04 完整性≠可信 被篡改')
+  if (!S04 || S04.value?.verified_trusted_allowed !== false) conflicts.push(t('driver.intent-sec.driver.valid.axiomS04'))
   const S13 = byId.get('S-13')
-  if (!S13 || S13.value?.host_core_modification_allowed !== false) conflicts.push('S-13 不得修改母体核心 被篡改')
+  if (!S13 || S13.value?.host_core_modification_allowed !== false) conflicts.push(t('driver.intent-sec.driver.valid.axiomS13'))
 
   if (conflicts.length) return { ok: false, code: 'CONFLICT', detail: { conflicts } }
 
@@ -491,38 +492,38 @@ export function policyDigest(policyState = DEFAULT_POLICY) {
 export function verifyArtifactWithDigest(args = {}) {
   const { actualDigest, expectedSha256, manifest, anchor, hostVersion } = args
   if (!isNonEmptyString(actualDigest) || !isNonEmptyString(expectedSha256)) {
-    return { verdict: 'DENIED', reason: '摘要缺失或不合法（默认拒绝 S-01）', unverified: ['artifact_digest'] }
+    return { verdict: 'DENIED', reason: t("driver.intent-sec.driver.reason.9"), unverified: ['artifact_digest'] }
   }
   if (actualDigest !== expectedSha256) {
-    return { verdict: 'DENIED', reason: '摘要不匹配：产物完整性校验失败', unverified: [] }
+    return { verdict: 'DENIED', reason: t("driver.intent-sec.driver.reason.10"), unverified: [] }
   }
   if (manifest) {
     if (isNonEmptyString(manifest.min_host) && isNonEmptyString(hostVersion) && cmpSemver(hostVersion, manifest.min_host) < 0) {
-      return { verdict: 'DENIED', reason: `manifest 要求母体 >= ${manifest.min_host}，当前 ${hostVersion}`, unverified: [] }
+      return { verdict: 'DENIED', reason: t("driver.intent-sec.driver.reason.11", { min_host: manifest.min_host, hostVersion: hostVersion }), unverified: [] }
     }
     if (manifest.id !== undefined && !isNonEmptyString(manifest.id)) {
-      return { verdict: 'DENIED', reason: 'manifest.id 不合法', unverified: [] }
+      return { verdict: 'DENIED', reason: t("driver.intent-sec.driver.reason.12"), unverified: [] }
     }
   }
   // 信任锚缺失 → UNAVAILABLE，不得默认放行（T-11）
   if (!anchor || !isPlainObject(anchor)) {
-    return { verdict: 'UNAVAILABLE', reason: '信任锚配置缺失，身份结论不可用', unverified: ['publisher_identity'] }
+    return { verdict: 'UNAVAILABLE', reason: t("driver.intent-sec.driver.reason.13"), unverified: ['publisher_identity'] }
   }
   // 有签名字段但无签名验证体系 → PENDING，不假装通过（§5.2）
   if (anchor.signature !== undefined || (manifest && manifest.signature !== undefined)) {
-    return { verdict: 'PENDING', reason: '存在签名字段但无签名验证体系（MISSING），不得假装通过', unverified: ['signature'] }
+    return { verdict: 'PENDING', reason: t("driver.intent-sec.driver.reason.14"), unverified: ['signature'] }
   }
   // 锚内已验证签名登记 → VERIFIED（v0.0.1 无此能力，路径保留）
   if (Array.isArray(anchor.verified_signatures) && anchor.verified_signatures.includes(actualDigest)) {
-    return { verdict: 'VERIFIED', reason: '锚内已验证签名登记命中', unverified: [] }
+    return { verdict: 'VERIFIED', reason: t("driver.intent-sec.driver.reason.15"), unverified: [] }
   }
   // 完整性已验 ≠ 可信：结论上限 CONDITIONAL（S-04）
   const registered = Array.isArray(anchor.artifacts) && anchor.artifacts.includes(actualDigest)
   return {
     verdict: 'CONDITIONAL',
     reason: registered
-      ? '摘要匹配且锚内登记：完整性已验，可信度未验（S-04，上限 CONDITIONAL）'
-      : '摘要匹配但锚内未登记：完整性已验，发布者身份未验（S-04，上限 CONDITIONAL）',
+      ? t("driver.intent-sec.driver.reason.16")
+      : t("driver.intent-sec.driver.reason.17"),
     unverified: ['publisher_identity', 'signature'],
   }
 }
@@ -531,14 +532,14 @@ export function verifyArtifactWithDigest(args = {}) {
 export async function verifyArtifact(args = {}) {
   try {
     if (args.content === undefined || args.content === null) {
-      return { verdict: 'DENIED', reason: '产物内容缺失（默认拒绝 S-01）', unverified: ['artifact_digest'] }
+      return { verdict: 'DENIED', reason: t("driver.intent-sec.driver.reason.18"), unverified: ['artifact_digest'] }
     }
     const text = typeof args.content === 'string' ? args.content : JSON.stringify(args.content)
     const actualDigest = await sha256Hex(text)
     return verifyArtifactWithDigest({ ...args, actualDigest })
   } catch (e) {
     // S-08：不得静默吞掉
-    return { verdict: 'UNAVAILABLE', reason: `摘要计算失败：${String(e && e.message ? e.message : e)}`, unverified: ['artifact_digest'] }
+    return { verdict: 'UNAVAILABLE', reason: t("driver.intent-sec.driver.reason.19", { arg1: String(e && e.message ? e.message : e) }), unverified: ['artifact_digest'] }
   }
 }
 
@@ -546,22 +547,22 @@ export async function verifyArtifact(args = {}) {
 export function verifyCredential(cred, now, opts = {}) {
   const revoked = Array.isArray(opts.revoked) ? opts.revoked : []
   if (!cred || !isPlainObject(cred)) {
-    return { verdict: 'PENDING', reason: '凭证缺失，缺证待补', missing_evidence: ['credential'] }
+    return { verdict: 'PENDING', reason: t("driver.intent-sec.driver.reason.20"), missing_evidence: ['credential'] }
   }
-  if (!isNonEmptyString(cred.id)) return { verdict: 'PENDING', reason: '凭证 id 缺失', missing_evidence: ['credential.id'] }
+  if (!isNonEmptyString(cred.id)) return { verdict: 'PENDING', reason: t("driver.intent-sec.driver.reason.21"), missing_evidence: ['credential.id'] }
   if (revoked.some((r) => r && r.id === cred.id) || cred.revoked === true) {
-    return { verdict: 'REVOKED', reason: '凭证已撤销（撤销清单命中）', missing_evidence: [] }
+    return { verdict: 'REVOKED', reason: t("driver.intent-sec.driver.reason.22"), missing_evidence: [] }
   }
   if (typeof cred.expires_at === 'number' && typeof now === 'number' && now > cred.expires_at) {
-    return { verdict: 'EXPIRED', reason: '凭证已过期', missing_evidence: [] }
+    return { verdict: 'EXPIRED', reason: t("driver.intent-sec.driver.reason.23"), missing_evidence: [] }
   }
   if (cred.signature !== undefined) {
-    return { verdict: 'PENDING', reason: '凭证含签名字段但无签名验证体系，不得假装通过', missing_evidence: ['signature_verification'] }
+    return { verdict: 'PENDING', reason: t("driver.intent-sec.driver.reason.24"), missing_evidence: ['signature_verification'] }
   }
   if (typeof cred.expires_at !== 'number') {
-    return { verdict: 'PENDING', reason: '凭证缺少有效期，不得当永久有效', missing_evidence: ['credential.expires_at'] }
+    return { verdict: 'PENDING', reason: t("driver.intent-sec.driver.reason.25"), missing_evidence: ['credential.expires_at'] }
   }
-  return { verdict: 'VERIFIED', reason: '本地策略内凭证，有效期内且未被撤销', missing_evidence: [] }
+  return { verdict: 'VERIFIED', reason: t("driver.intent-sec.driver.reason.26"), missing_evidence: [] }
 }
 
 /* ==========================================================================
@@ -577,28 +578,28 @@ export function checkCapability(args = {}) {
   const base = { status: 'DENIED', constraints: [], reason: '' }
   const deny = (reason, extra = {}) => ({ ...base, reason, ...extra })
 
-  if (!isNonEmptyString(subject)) return deny('主体缺失（S-01 默认拒绝）')
-  if (!isNonEmptyString(capability)) return deny('能力标识缺失')
-  if (!isNonEmptyString(operation)) return deny('操作缺失')
+  if (!isNonEmptyString(subject)) return deny(t("driver.intent-sec.driver.text.31"))
+  if (!isNonEmptyString(capability)) return deny(t("driver.intent-sec.driver.text.32"))
+  if (!isNonEmptyString(operation)) return deny(t("driver.intent-sec.driver.text.33"))
 
   // 未知操作 → 判定层拒绝（裁决 D2）
   const ops = policyState.operation_catalog || []
-  if (ops.length && !ops.includes(operation)) return deny(`未知操作：${operation}（不在操作目录）`)
+  if (ops.length && !ops.includes(operation)) return deny(t("driver.intent-sec.driver.text.34", { operation: operation }))
 
   // 撤销清单命中 → REVOKED
   const hit = (revoked || []).find((r) => r && r.id === subject)
   if (hit) {
     if (!hit.until || typeof now !== 'number' || now <= hit.until) {
-      return { ...base, status: 'REVOKED', reason: `主体在撤销清单内：${hit.reason || '未注明原因'}` }
+      return { ...base, status: 'REVOKED', reason: t('driver.intent-sec.driver.reason.revoked', { reason: hit.reason || t('driver.intent-sec.driver.reason.28') }) }
     }
   }
   // 显式范围缺失 → 拒（拒绝隐式继承与转授，裁决 D5）
   if (!isPlainObject(scope) || Object.keys(scope).length === 0) {
-    return deny('未声明显式作用范围（拒绝隐式权限继承与转授）', { missing_evidence: ['scope'] })
+    return deny(t("driver.intent-sec.driver.text.35"), { missing_evidence: ['scope'] })
   }
   // 转授检查：声明了 delegated_from 但无 delegation_chain → 拒
   if (args.delegated_from !== undefined && !Array.isArray(args.delegation_chain)) {
-    return deny('声明转授但缺少 delegation_chain（拒绝隐式转授）', { missing_evidence: ['delegation_chain'] })
+    return deny(t("driver.intent-sec.driver.text.36"), { missing_evidence: ['delegation_chain'] })
   }
 
   // 授权源 = 本地策略副本（母体无动态授权通道，§2.3）
@@ -606,21 +607,21 @@ export function checkCapability(args = {}) {
     (g) => g.capability === capability && (g.subject_ref === '*' || g.subject_ref === subject)
       && (!Array.isArray(g.operations) || g.operations.includes(operation)),
   )
-  if (!grants.length) return deny(`未授权：${subject} 对 ${capability} 的 ${operation}（S-01 默认拒绝）`)
+  if (!grants.length) return deny(t("driver.intent-sec.driver.text.37", { subject: subject, capability: capability, operation: operation }))
 
   // 范围收敛：请求 scope 必须是授权 scope 的子集
   const gScope = grants[0].scope || {}
   for (const [k, want] of Object.entries(scope)) {
     const allow = Array.isArray(gScope[k]) ? gScope[k] : null
-    if (!allow) return deny(`作用范围键 ${k} 未被授权`, { missing_evidence: [`scope.${k}`] })
+    if (!allow) return deny(t("driver.intent-sec.driver.text.38", { k: k }), { missing_evidence: [`scope.${k}`] })
     if (!Array.isArray(want) || !want.every((v) => allow.includes(v))) {
-      return deny(`作用范围越权：${k} 超出授权范围`, { missing_evidence: [`scope.${k}`] })
+      return deny(t("driver.intent-sec.driver.text.39", { k: k }), { missing_evidence: [`scope.${k}`] })
     }
   }
 
   // 期限
   const validity = resolveValidity({ constraints: { valid_until: args.valid_until } }, now, policyState.defaults?.ttl_ms)
-  if (validity.expired) return { ...base, status: 'EXPIRED', reason: '授权已到期' }
+  if (validity.expired) return { ...base, status: 'EXPIRED', reason: t("driver.intent-sec.driver.reason.29") }
 
   // 预算（超限不在此处判定，交由 Resource Guard；此处仅要求显式声明）
   const constraints = [{
@@ -628,9 +629,9 @@ export function checkCapability(args = {}) {
     valid_until: validity.expires_at,
     ttl_source: validity.ttl_source,
     grant_ref: grants[0].grant_id,
-    note: '结论基于本地策略副本，母体无动态授权通道（S-06 作用范围已标注）',
+    note: t("driver.intent-sec.driver.note.1"),
   }]
-  return { status: 'AUTHORIZED_FOR_EXECUTION', constraints, reason: `授权命中 ${grants[0].grant_id}` }
+  return { status: 'AUTHORIZED_FOR_EXECUTION', constraints, reason: t("driver.intent-sec.driver.reason.30", { arg1: grants[0].grant_id }) }
 }
 
 /* ==========================================================================
@@ -664,7 +665,7 @@ export function recordOverrun(event, sink) {
     observed: event?.next ?? null,
     request_digest: event?.request_digest ?? null,
     enforcement: 'DECLARED',
-    note: '母体无强制配额：仅校验+记录+上报，未中断执行（§5.5）',
+    note: t("driver.intent-sec.driver.note.2"),
   }
   if (typeof sink === 'function') { try { sink(rec) } catch { /* S-08：记录层失败不冒泡为静默 */ } }
   return rec
@@ -743,24 +744,24 @@ export function diagnose(input = {}, opts = {}) {
   const overrun = input.overrun || null
 
   let code = 'OK'
-  let reason = '无异常'
+  let reason = t("driver.intent-sec.driver.text.40")
   const missing_evidence = []
   const path = []
 
   if (loadError) {
     code = String(loadError.kind || 'ERROR').toUpperCase()
-    reason = String(loadError.reason || '装载失败')
+    reason = String(loadError.reason || t("driver.intent-sec.driver.text.41"))
     path.push(`load:${loadError.stage || 'unknown'}`)
     if (loadError.kind === 'permission') missing_evidence.push('host_capability_grant')
     if (loadError.kind === 'version') missing_evidence.push('host_version_upgrade')
   } else if (denial) {
     code = String(denial.status || 'DENIED')
-    reason = String(denial.reason || '判定未放行')
+    reason = String(denial.reason || t("driver.intent-sec.driver.text.42"))
     if (Array.isArray(denial.missing_evidence)) missing_evidence.push(...denial.missing_evidence)
     if (Array.isArray(denial.path)) path.push(...denial.path)
   } else if (overrun) {
     code = 'OVERRUN'
-    reason = `配额超限（${overrun.item || 'unknown'}），仅记录未中断`
+    reason = t("driver.intent-sec.driver.text.43", { arg1: overrun.item || 'unknown' })
     path.push('resource_guard')
   }
 
@@ -846,7 +847,7 @@ export function judgeSync(request, opts = {}) {
     /* 步骤 0：重放检测（同 request_id 已有回执 → 拒绝并显式标记，T-09） */
     if (opts.replay === true) {
       d.status = 'DENIED'
-      d.reason = '重放请求：同一 request_id 已有回执（幂等拒绝）'
+      d.reason = t("driver.intent-sec.driver.text.44")
       d.replay = true
       d.denied_operations.push(request.operation)
       return die()
@@ -857,7 +858,7 @@ export function judgeSync(request, opts = {}) {
     if (!v.ok) {
       d.status = transition(d.status, 'schema_fail')
       d.path.push('SCHEMA_VALIDATION')
-      d.reason = `请求格式校验失败：${v.errors.map((e) => e.field).join(', ')}`
+      d.reason = t("driver.intent-sec.driver.text.45", { arg1: v.errors.map((e) => e.field).join(', ') })
       d.format_errors = v.errors
       applicable('S-03')
       return die()
@@ -867,7 +868,7 @@ export function judgeSync(request, opts = {}) {
     /* 步骤 2：来源记录（subject_ref / driver_ref 是声明式引用，不是身份证明） */
     if (!isNonEmptyString(request.subject_ref) || !isNonEmptyString(request.driver_ref)) {
       d.status = 'DENIED'
-      d.reason = '来源记录不完整'
+      d.reason = t("driver.intent-sec.driver.text.46")
       d.missing_evidence.push('subject_ref/driver_ref')
       return die()
     }
@@ -906,7 +907,7 @@ export function judgeSync(request, opts = {}) {
       if (!declared.includes(cap)) {
         d.status = 'DENIED'
         d.denied_operations.push(cap)
-        d.reason = `能力 ${cap} 不在母体能力目录内（母体无法兑现，默认拒绝）`
+        d.reason = t("driver.intent-sec.driver.text.47", { cap: cap })
         applicable('S-01')
         return die()
       }
@@ -915,7 +916,7 @@ export function judgeSync(request, opts = {}) {
         // 门对"自己没见过的能力"没有判断依据，放行等于跳过审查。
         d.status = 'DENIED'
         d.denied_operations.push(cap)
-        d.reason = `安全门策略镜像落后于母体：${cap} 未被收录（需同步 capability_catalog）`
+        d.reason = t("driver.intent-sec.driver.text.48", { cap: cap })
         d.missing_evidence.push('sec_policy_catalog_sync')
         applicable('S-01')
         return die()
@@ -1004,13 +1005,13 @@ export function judgeSync(request, opts = {}) {
         recordOverrun({ ...ex, request_digest: opts.requestDigest || null, at: opts.now }, opts.overrunSink)
       }
       d.status = transition(d.status, 'budget_exceeded')
-      d.reason = `配额超限（DECLARED，仅记录）：${b.exceeded.map((e) => e.item).join(', ')}`
+      d.reason = t("driver.intent-sec.driver.text.49", { arg1: b.exceeded.map((e) => e.item).join(', ') })
       applicable('quota:DECLARED')
       return die()
     }
     if (validity.expired) {
       d.status = transition(d.status, 'constraint_expired')
-      d.reason = '约束有效期已过'
+      d.reason = t("driver.intent-sec.driver.text.50")
       return die()
     }
     push(transition(d.status, 'budget_ok'))
@@ -1022,7 +1023,7 @@ export function judgeSync(request, opts = {}) {
     const needApproval = (policy.defaults?.human_approval_operations || []).includes(request.operation)
     if (needApproval && !request.evidence_refs.includes('human_approval')) {
       d.status = transition(d.status, 'human_approval_missing')
-      d.reason = '第 10 步人工确认：母体无人工确认机制（MISSING），不得跳过'
+      d.reason = t("driver.intent-sec.driver.text.51")
       d.missing_evidence.push('human_approval')
       d.path.push('STEP10')
       return die()
@@ -1035,7 +1036,7 @@ export function judgeSync(request, opts = {}) {
   } catch (e) {
     // S-08：异常不得静默吞掉，转为显式 CONFLICT/UNAVAILABLE
     d.status = 'UNAVAILABLE'
-    d.reason = `判定过程异常：${String(e && e.message ? e.message : e)}`
+    d.reason = t("driver.intent-sec.driver.text.52", { arg1: String(e && e.message ? e.message : e) })
     d.conflicts = ['judge_internal_error']
     return die()
   }
@@ -1184,7 +1185,7 @@ function startScanTimer(st, ctx) {
     const before = st.revoked.length
     st.revoked = st.revoked.filter((r) => !r.until || now <= r.until)
     if (st.revoked.length !== before) {
-      appendEvent(st, { kind: 'scan', code: 'REVOKED_TTL_CLEANED', reason: `清理过期撤销项 ${before - st.revoked.length} 条` })
+      appendEvent(st, { kind: 'scan', code: 'REVOKED_TTL_CLEANED', reason: t("driver.intent-sec.driver.reason.31", { arg1: before - st.revoked.length }) })
     }
   }, interval)
   ctx.onDispose(() => clearInterval(id))
@@ -1217,12 +1218,12 @@ function renderPanel(st, host, moduleId) {
   root.setAttribute('data-module', moduleId || MODULE_ID)
   root.setAttribute('data-intent-sec-version', MODULE_VERSION)
 
-  root.append(el('div', { text: `INT-RLSD 安全驱动 v${MODULE_VERSION}`, style: S.title }))
-  root.append(el('div', { text: '根级安全判定内核 · 门放行 ≠ 执行成功', style: S.hint }))
+  root.append(el('div', { text: t("driver.intent-sec.driver.text.53", { MODULE_VERSION: MODULE_VERSION }), style: S.title }))
+  root.append(el('div', { text: t("driver.intent-sec.driver.text.54"), style: S.hint }))
 
   // 策略（只读展示）
   const p = el('div')
-  p.append(el('div', { text: '策略集（只读）', style: S.title + ';font-size:12px' }))
+  p.append(el('div', { text: t("driver.intent-sec.driver.text.55"), style: S.title + ';font-size:12px' }))
   const row1 = el('div', { style: S.row })
   row1.append(el('span', { text: `${st.policy.policy_id}@${st.policy.policy_version}` }))
   row1.append(el('span', { text: st.policyDigest, style: S.hint + ';font-size:11px' }))
@@ -1231,16 +1232,16 @@ function renderPanel(st, host, moduleId) {
 
   // 信任锚（明示非全球信任根）
   const t = el('div')
-  t.append(el('div', { text: '信任锚', style: S.title + ';font-size:12px' }))
+  t.append(el('div', { text: t("driver.intent-sec.driver.text.56"), style: S.title + ';font-size:12px' }))
   const anchorText = st.anchor
-    ? `已配置（${st.anchor.kind || 'local-config'}）— 非全球信任根，身份结论上限 CONDITIONAL`
-    : '未配置 — 身份结论不可用（UNAVAILABLE），不默认放行'
+    ? t("driver.intent-sec.driver.text.57", { arg1: st.anchor.kind || 'local-config' })
+    : t("driver.intent-sec.driver.text.58")
   t.append(el('div', { text: anchorText, style: S.hint }))
   root.append(t)
 
   // 能力边界面板：配额三态对用户可见（§7-3，不得只写在文档里）
   const q = el('div')
-  q.append(el('div', { text: '能力边界（配额执行状态）', style: S.title + ';font-size:12px' }))
+  q.append(el('div', { text: t("driver.intent-sec.driver.text.59"), style: S.title + ';font-size:12px' }))
   for (const [k, it] of Object.entries(st.policy.quotas.items)) {
     const r = el('div', { style: S.row })
     r.append(el('span', { text: `${it.desc}（${k}）` }))
@@ -1248,21 +1249,21 @@ function renderPanel(st, host, moduleId) {
     q.append(r)
   }
   const g = el('div', { style: S.row })
-  g.append(el('span', { text: '未定义配额（不臆造）' }))
+  g.append(el('span', { text: t("driver.intent-sec.driver.text.60") }))
   g.append(el('span', { text: 'GAP', style: S.badge }))
   q.append(g)
-  q.append(el('div', { text: `WASM 内存 / 单次执行时长 / 并发数：${st.policy.quotas.undefined_no_guessing.join('、')} — 需任务契约明确，v0.0.1 未定义`, style: S.hint }))
+  q.append(el('div', { text: t("driver.intent-sec.driver.text.61", { arg1: st.policy.quotas.undefined_no_guessing.join('、') }), style: S.hint }))
   root.append(q)
 
   // 诊断面板（十枚举可查）
   const dg = el('div')
-  dg.append(el('div', { text: '判定状态（主链十态 + 终态）', style: S.title + ';font-size:12px' }))
+  dg.append(el('div', { text: t("driver.intent-sec.driver.text.62"), style: S.title + ';font-size:12px' }))
   const ul = el('ul', { style: S.list })
   for (const s of DECISION_STATES) ul.append(el('li', { text: s }))
   dg.append(ul)
   const st2 = el('div', { style: S.row })
-  const statusNode = el('span', { text: `最近判定：${st.lastStatus || '—'}` })
-  const eventsNode = el('span', { text: `事件 ${st.events.length} 条`, style: S.hint })
+  const statusNode = el('span', { text: t("driver.intent-sec.driver.text.63", { arg1: st.lastStatus || '—' }) })
+  const eventsNode = el('span', { text: t("driver.intent-sec.driver.text.64", { length: st.events.length }), style: S.hint })
   st2.append(statusNode, eventsNode)
   dg.append(st2)
   root.append(dg)
@@ -1276,18 +1277,18 @@ function renderPanel(st, host, moduleId) {
   st.eventsNode = eventsNode
   st.pendingNode = pendingNode
   st.refresh = () => {
-    if (st.statusNode) st.statusNode.textContent = `最近判定：${st.lastStatus || '—'}`
-    if (st.eventsNode) st.eventsNode.textContent = `事件 ${st.events.length} 条`
+    if (st.statusNode) st.statusNode.textContent = t("driver.intent-sec.driver.text.65", { arg1: st.lastStatus || '—' })
+    if (st.eventsNode) st.eventsNode.textContent = t("driver.intent-sec.driver.text.66", { length: st.events.length })
     if (!st.pendingNode) return
     st.pendingNode.textContent = ''
     if (!st.pending.length) return
-    st.pendingNode.append(el('div', { text: `待人工确认 ${st.pending.length} 项`, style: S.title + ';font-size:12px' }))
+    st.pendingNode.append(el('div', { text: t("driver.intent-sec.driver.text.67", { length: st.pending.length }), style: S.title + ';font-size:12px' }))
     const pl = el('ul', { style: S.list })
     for (const m of st.pending.slice(-5)) {
-      pl.append(el('li', { text: `${m.request_id} · ${m.operation} · 缺证 ${(m.missing_evidence || []).join('/')}` }))
+      pl.append(el('li', { text: t("driver.intent-sec.driver.text.68", { request_id: m.request_id, operation: m.operation, arg1: (m.missing_evidence || []).join('/') }) }))
     }
     st.pendingNode.append(pl)
-    st.pendingNode.append(el('div', { text: '母体无人工确认机制（MISSING）：第 10 步返回 PENDING，不跳过', style: S.hint }))
+    st.pendingNode.append(el('div', { text: t("driver.intent-sec.driver.text.69"), style: S.hint }))
   }
   st.refresh()
 
@@ -1340,10 +1341,10 @@ const mod = {
         kind: 'policy',
         code: `CATALOG_${closure.state.toUpperCase()}`,
         reason: closure.state === 'ok'
-          ? `能力目录镜像与母体一致（${closure.digest}）`
+          ? t("driver.intent-sec.driver.reason.32", { digest: closure.digest })
           : closure.state === 'unverified'
-            ? '母体未提供能力目录，仅按本地镜像自证（不得视为已核对）'
-            : `能力目录镜像与母体不一致：母体多出 [${closure.extra_in_host.join(', ')}]，镜像多出 [${closure.missing_in_host.join(', ')}]`,
+            ? t("driver.intent-sec.driver.reason.33")
+            : t("driver.intent-sec.driver.reason.34", { arg1: closure.extra_in_host.join(', '), arg2: closure.missing_in_host.join(', ') }),
       })
     } catch (e) {
       appendEvent(st, { kind: 'error', code: 'CATALOG_CHECK_FAILED', reason: String(e && e.message ? e.message : e) })
